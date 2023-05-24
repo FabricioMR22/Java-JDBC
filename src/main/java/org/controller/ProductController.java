@@ -1,12 +1,11 @@
-package controller;
+package org.controller;
 
-import model.Producto;
+import factory.ConnectionFactory;
+import org.model.Producto;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class ProductController {
 
@@ -24,12 +23,9 @@ public class ProductController {
 
     public List<Producto> listar() throws SQLException {
 
-        List<Producto> Productos = new ArrayList<>();
+        Connection con = new ConnectionFactory().recuperaConexion();
 
-        Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost/control_de_stock?useTimeZone=true$serverTimeZone=UTC",
-                "root",
-                "Herlinda1?");
+        List<Producto> Productos = new ArrayList<>();
 
         Statement statement = con.createStatement();
         statement.execute("SELECT * FROM PRODUCTO");
