@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProductController {
 
-    public void create(Producto producto) throws SQLException{
+    public Integer create(Producto producto) throws SQLException{
         Connection con = new ConnectionFactory().recuperaConexion();
         Statement statement = con.createStatement();
 
@@ -22,8 +22,9 @@ public class ProductController {
 
         ResultSet resultSet = statement.getGeneratedKeys();
         while (resultSet.next()){
-            System.out.println(resultSet.getInt(1));
+            return resultSet.getInt(1);
         }
+        return null;
     }
 
     public void read() {
@@ -32,7 +33,14 @@ public class ProductController {
     public void update() {
     }
 
-    public void delete() {
+    public void delete(Integer ID) throws SQLException{
+        Connection con = new ConnectionFactory().recuperaConexion();
+        Statement statement = con.createStatement();
+
+        statement.execute("DELETE FROM producto WHERE id = "+ ID);
+
+        System.out.println("Registro mod =" + statement.getUpdateCount());
+
     }
 
     public List<Producto> listar() throws SQLException {
