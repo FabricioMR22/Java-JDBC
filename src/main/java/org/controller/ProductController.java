@@ -11,14 +11,15 @@ public class ProductController {
 
     public Integer create(Producto producto) throws SQLException{
         Connection con = new ConnectionFactory().recuperaConexion();
-        Statement statement = con.createStatement();
+        PreparedStatement statement = con.prepareStatement(
+                "INSERT INTO producto(nombre,descripcion,cantidad) VALUES (?,?,?);"
+                ,Statement.RETURN_GENERATED_KEYS);
 
-        statement.execute(
-                "INSERT INTO producto(nombre,descripcion,cantidad)" +
-                        " VALUES('"+producto.getNombre() + "','"
-                        +producto.getDescripcion()+"',"
-                        +producto.getCantidad()+");"
-        ,Statement.RETURN_GENERATED_KEYS);
+        statement.setString(1,producto.getNombre());
+        statement.setString(2, producto.getDescripcion());
+        statement.setInt(3,producto.getCantidad());
+
+        statement.execute();
 
         ResultSet resultSet = statement.getGeneratedKeys();
         while (resultSet.next()){
