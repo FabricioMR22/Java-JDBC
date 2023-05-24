@@ -9,7 +9,21 @@ import java.util.List;
 
 public class ProductController {
 
-    public void create() {
+    public void create(Producto producto) throws SQLException{
+        Connection con = new ConnectionFactory().recuperaConexion();
+        Statement statement = con.createStatement();
+
+        statement.execute(
+                "INSERT INTO producto(nombre,descripcion,cantidad)" +
+                        " VALUES('"+producto.getNombre() + "','"
+                        +producto.getDescripcion()+"',"
+                        +producto.getCantidad()+");"
+        ,Statement.RETURN_GENERATED_KEYS);
+
+        ResultSet resultSet = statement.getGeneratedKeys();
+        while (resultSet.next()){
+            System.out.println(resultSet.getInt(1));
+        }
     }
 
     public void read() {
@@ -22,7 +36,6 @@ public class ProductController {
     }
 
     public List<Producto> listar() throws SQLException {
-
         Connection con = new ConnectionFactory().recuperaConexion();
 
         List<Producto> Productos = new ArrayList<>();
@@ -42,23 +55,7 @@ public class ProductController {
         }
 
         con.close();
-
         return Productos;
     }
 
-    public static void main(String[] args) {
-        try {
-            ProductController pro = new ProductController();
-
-            pro.listar().forEach(producto ->
-                    System.out.println( producto.getId() +" - "
-                                    + producto.getNombre() + " - "
-                                    + producto.getDescripcion() + " - "
-                                    + producto.getCantidad()
-                    )
-            );
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-    }
 }
