@@ -13,8 +13,16 @@ public class Principal {
 
             pro.create(new Producto("Polo';", "Algodon",25));
 
+            System.out.println(pro.read(36));
+
             System.out.println(
                     pro.delete(35)
+            );
+
+            Producto uProducto = new Producto(25,"Camise","Falsa",23);
+
+            System.out.println(
+                    pro.update(uProducto)
             );
 
             pro.listar().forEach(producto ->
