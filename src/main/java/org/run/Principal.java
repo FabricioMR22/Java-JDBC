@@ -11,9 +11,12 @@ public class Principal {
     public static void main(String[] args) {
         try {
 
-            //pro.create(new Producto("Casaca","De cuero",30));
+            pro.create(new Producto("Polo';", "Algodon",25));
 
-            pro.delete(15);
+            System.out.println(
+                    pro.delete(35)
+            );
+
             pro.listar().forEach(producto ->
                     System.out.println( producto.getId() +" - "
                             + producto.getNombre() + " - "

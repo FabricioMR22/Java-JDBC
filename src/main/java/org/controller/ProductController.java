@@ -25,7 +25,9 @@ public class ProductController {
         while (resultSet.next()){
             return resultSet.getInt(1);
         }
-        return null;
+        con.close();
+
+        return 0;
     }
 
     public void read() {
@@ -34,14 +36,18 @@ public class ProductController {
     public void update() {
     }
 
-    public void delete(Integer ID) throws SQLException{
+    public Integer delete(Integer ID) throws SQLException{
         Connection con = new ConnectionFactory().recuperaConexion();
-        Statement statement = con.createStatement();
+        PreparedStatement statement = con.prepareStatement(
+                "DELETE FROM producto WHERE id = ?"
+        );
 
-        statement.execute("DELETE FROM producto WHERE id = "+ ID);
+        statement.setInt(1,ID);
+        statement.execute();
 
-        System.out.println("Registro mod =" + statement.getUpdateCount());
-
+        int CountMod = statement.getUpdateCount();
+        con.close();
+        return CountMod;
     }
 
     public List<Producto> listar() throws SQLException {
