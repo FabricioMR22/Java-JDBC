@@ -15,9 +15,26 @@ public class ProductController {
                 "INSERT INTO producto(nombre,descripcion,cantidad) VALUES (?,?,?);"
                 ,Statement.RETURN_GENERATED_KEYS);
 
-        statement.setString(1,producto.getNombre());
+        int maximoCantidad = 50;
+        int cantidad = producto.getCantidad();
+        int resultSet = 0;
+
+        do {
+            int cantidadParaGuardar = Math.min(cantidad,maximoCantidad);
+            producto.setCantidad(cantidadParaGuardar);
+            resultSet = ejecutaRegistro(producto,statement);
+            cantidad -= maximoCantidad;
+        }while (cantidad>0);
+
+        con.close();
+
+        return resultSet;
+    }
+
+    private static Integer ejecutaRegistro(Producto producto, PreparedStatement statement) throws SQLException {
+        statement.setString(1, producto.getNombre());
         statement.setString(2, producto.getDescripcion());
-        statement.setInt(3,producto.getCantidad());
+        statement.setInt(3, producto.getCantidad());
 
         statement.execute();
 
@@ -25,9 +42,7 @@ public class ProductController {
         while (resultSet.next()){
             return resultSet.getInt(1);
         }
-        con.close();
-
-        return 0;
+        return null;
     }
 
     public Producto read(Integer ID) throws SQLException {

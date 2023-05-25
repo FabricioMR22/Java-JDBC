@@ -11,19 +11,9 @@ public class Principal {
     public static void main(String[] args) {
         try {
 
-            pro.create(new Producto("Polo';", "Algodon",25));
+            pro.create(new Producto("Linternas", "Pilas recargable",51));
 
-            System.out.println(pro.read(36));
 
-            System.out.println(
-                    pro.delete(35)
-            );
-
-            Producto uProducto = new Producto(25,"Camise","Falsa",23);
-
-            System.out.println(
-                    pro.update(uProducto)
-            );
 
             pro.listar().forEach(producto ->
                     System.out.println( producto.getId() +" - "
