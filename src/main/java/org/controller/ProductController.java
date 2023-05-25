@@ -11,6 +11,8 @@ public class ProductController {
 
     public Integer create(Producto producto) throws SQLException{
         Connection con = new ConnectionFactory().recuperaConexion();
+        con.setAutoCommit(false);
+
         PreparedStatement statement = con.prepareStatement(
                 "INSERT INTO producto(nombre,descripcion,cantidad) VALUES (?,?,?);"
                 ,Statement.RETURN_GENERATED_KEYS);
@@ -19,13 +21,22 @@ public class ProductController {
         int cantidad = producto.getCantidad();
         int resultSet = 0;
 
-        do {
-            int cantidadParaGuardar = Math.min(cantidad,maximoCantidad);
-            producto.setCantidad(cantidadParaGuardar);
-            resultSet = ejecutaRegistro(producto,statement);
-            cantidad -= maximoCantidad;
-        }while (cantidad>0);
+        try{
+            do {
+                int cantidadParaGuardar = Math.min(cantidad,maximoCantidad);
+                producto.setCantidad(cantidadParaGuardar);
+                resultSet = ejecutaRegistro(producto,statement);
+                cantidad -= maximoCantidad;
+            }while (cantidad>0);
 
+            con.commit();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            con.rollback();
+
+        }
+
+        statement.close();
         con.close();
 
         return resultSet;
@@ -35,6 +46,10 @@ public class ProductController {
         statement.setString(1, producto.getNombre());
         statement.setString(2, producto.getDescripcion());
         statement.setInt(3, producto.getCantidad());
+
+        if (producto.getCantidad()<50){
+            throw new RuntimeException("Error registro");
+        }
 
         statement.execute();
 

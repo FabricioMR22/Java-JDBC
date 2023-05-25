@@ -11,7 +11,7 @@ public class Principal {
     public static void main(String[] args) {
         try {
 
-            pro.create(new Producto("Linternas", "Pilas recargable",51));
+            pro.create(new Producto("Linternas", "Pilas recargable",60));
 
 
 
