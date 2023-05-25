@@ -10,34 +10,35 @@ import java.util.List;
 public class ProductController {
 
     public Integer create(Producto producto) throws SQLException{
-        Connection con = new ConnectionFactory().recuperaConexion();
-        con.setAutoCommit(false);
-
-        PreparedStatement statement = con.prepareStatement(
-                "INSERT INTO producto(nombre,descripcion,cantidad) VALUES (?,?,?);"
-                ,Statement.RETURN_GENERATED_KEYS);
-
-        int maximoCantidad = 50;
-        int cantidad = producto.getCantidad();
+        final Connection con = new ConnectionFactory().recuperaConexion();
         int resultSet = 0;
 
-        try{
-            do {
-                int cantidadParaGuardar = Math.min(cantidad,maximoCantidad);
-                producto.setCantidad(cantidadParaGuardar);
-                resultSet = ejecutaRegistro(producto,statement);
-                cantidad -= maximoCantidad;
-            }while (cantidad>0);
+        try(con){
+            con.setAutoCommit(false);
 
-            con.commit();
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            con.rollback();
+            final PreparedStatement statement = con.prepareStatement(
+                    "INSERT INTO producto(nombre,descripcion,cantidad) VALUES (?,?,?);"
+                    ,Statement.RETURN_GENERATED_KEYS);
 
+            try(statement) {
+                int maximoCantidad = 50;
+                int cantidad = producto.getCantidad();
+
+                try {
+                    do {
+                        int cantidadParaGuardar = Math.min(cantidad, maximoCantidad);
+                        producto.setCantidad(cantidadParaGuardar);
+                        resultSet = ejecutaRegistro(producto, statement);
+                        cantidad -= maximoCantidad;
+                    } while (cantidad > 0);
+
+                    con.commit();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    con.rollback();
+                }
+            }
         }
-
-        statement.close();
-        con.close();
 
         return resultSet;
     }
@@ -46,18 +47,15 @@ public class ProductController {
         statement.setString(1, producto.getNombre());
         statement.setString(2, producto.getDescripcion());
         statement.setInt(3, producto.getCantidad());
-
-        if (producto.getCantidad()<50){
-            throw new RuntimeException("Error registro");
-        }
-
         statement.execute();
 
-        ResultSet resultSet = statement.getGeneratedKeys();
-        while (resultSet.next()){
-            return resultSet.getInt(1);
+        final ResultSet resultSet = statement.getGeneratedKeys();
+        try(resultSet) {
+            while (resultSet.next()){
+                return resultSet.getInt(1);
+            }
         }
-        return null;
+        return 0;
     }
 
     public Producto read(Integer ID) throws SQLException {

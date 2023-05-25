@@ -13,8 +13,6 @@ public class Principal {
 
             pro.create(new Producto("Linternas", "Pilas recargable",60));
 
-
-
             pro.listar().forEach(producto ->
                     System.out.println( producto.getId() +" - "
                             + producto.getNombre() + " - "
