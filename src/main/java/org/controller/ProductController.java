@@ -108,17 +108,18 @@ public class ProductController {
     }
 
     public Integer delete(Integer ID) throws SQLException{
-        Connection con = new ConnectionFactory().recuperaConexion();
-        PreparedStatement statement = con.prepareStatement(
-                "DELETE FROM producto WHERE id = ?;"
-        );
+        final Connection con = new ConnectionFactory().recuperaConexion();
+        try(con){
+            final PreparedStatement statement = con.prepareStatement(
+                    "DELETE FROM producto WHERE id = ?;"
+            );
 
-        statement.setInt(1,ID);
-        statement.execute();
-
-        int CountMod = statement.getUpdateCount();
-        con.close();
-        return CountMod;
+            try(statement){
+                statement.setInt(1,ID);
+                statement.execute();
+                return statement.getUpdateCount();
+            }
+        }
     }
 
     public List<Producto> listar() throws SQLException {
