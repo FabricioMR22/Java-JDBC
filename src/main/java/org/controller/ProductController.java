@@ -59,23 +59,34 @@ public class ProductController {
     }
 
     public Producto read(Integer ID) throws SQLException {
-        Connection con = new ConnectionFactory().recuperaConexion();
-        PreparedStatement statement = con.prepareStatement(
-                "SELECT * FROM producto WHERE id = ?;"
-        );
-        statement.setInt(1,ID);
-        statement.execute();
-
-        ResultSet resultSet = statement.getResultSet();
-
+        final Connection con = new ConnectionFactory().recuperaConexion();
         Producto producto = new Producto();
-        while (resultSet.next()){
-            producto.setId(resultSet.getInt("id"));
-            producto.setNombre(resultSet.getString("nombre"));
-            producto.setDescripcion(resultSet.getString("descripcion"));
-            producto.setCantidad(resultSet.getInt("cantidad"));
+
+        try(con) {
+            final PreparedStatement statement = con.prepareStatement(
+                    "SELECT * FROM producto WHERE id = ?;"
+            );
+
+            try(statement) {
+                statement.setInt(1, ID);
+                statement.execute();
+                extracted(producto, statement);
+            }
         }
         return producto;
+    }
+
+    private static void extracted(Producto producto, PreparedStatement statement) throws SQLException {
+        final ResultSet resultSet = statement.getResultSet();
+
+        try(resultSet){
+            while (resultSet.next()) {
+                producto.setId(resultSet.getInt("id"));
+                producto.setNombre(resultSet.getString("nombre"));
+                producto.setDescripcion(resultSet.getString("descripcion"));
+                producto.setCantidad(resultSet.getInt("cantidad"));
+            }
+        }
     }
 
     public Integer update(Producto producto) throws SQLException {
