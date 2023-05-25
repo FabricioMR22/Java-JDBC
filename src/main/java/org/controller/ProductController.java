@@ -124,26 +124,32 @@ public class ProductController {
     }
 
     public List<Producto> listar() throws SQLException {
-        Connection con = new ConnectionFactory().recuperaConexion();
+        final Connection con = new ConnectionFactory().recuperaConexion();
+        try(con) {
+            List<Producto> Productos = new ArrayList<>();
 
-        List<Producto> Productos = new ArrayList<>();
+            final Statement statement = con.createStatement();
+            try(statement){
+                statement.execute("SELECT * FROM producto;");
 
-        Statement statement = con.createStatement();
-        statement.execute("SELECT * FROM producto;");
-        ResultSet resultSet = statement.getResultSet();
-
-        while (resultSet.next()) {
-            Producto producto = new Producto(
-                    resultSet.getInt("id"),
-                    resultSet.getString("nombre"),
-                    resultSet.getString("descripcion"),
-                    resultSet.getInt("cantidad")
-            );
-            Productos.add(producto);
+                extracted(Productos, statement);
+                return Productos;
+            }
         }
-
-        con.close();
-        return Productos;
     }
 
+    private static void extracted(List<Producto> Productos, Statement statement) throws SQLException {
+        final ResultSet resultSet = statement.getResultSet();
+        try(resultSet){
+            while (resultSet.next()) {
+                Producto producto = new Producto(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nombre"),
+                        resultSet.getString("descripcion"),
+                        resultSet.getInt("cantidad")
+                );
+                Productos.add(producto);
+            }
+        }
+    }
 }
