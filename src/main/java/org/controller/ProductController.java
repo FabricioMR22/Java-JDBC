@@ -16,7 +16,8 @@ public class ProductController {
         this.productoDAO = new ProductoDAO(new ConnectionFactory().recuperaConexion());;
     }
 
-    public void guardar(Producto producto) {
+    public void guardar(Producto producto, Integer categoriaId) {
+        producto.setCategoriaId(categoriaId);
         this.productoDAO.create(producto);
     }
 
