@@ -16,6 +16,8 @@ public class ConnectionFactory {
         pooledDataSource.setUser("root");
         pooledDataSource.setPassword("1234");
 
+        pooledDataSource.setMaxPoolSize(10);
+
         this.dataSource = pooledDataSource;
     }
 
