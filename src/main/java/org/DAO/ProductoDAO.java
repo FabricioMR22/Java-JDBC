@@ -11,34 +11,20 @@ public class ProductoDAO {
         this.con = con;
     }
 
-    public int create(Producto producto) throws SQLException{
+    public int create(Producto producto) {
         int resultSet = 0;
 
         try(con){
-            con.setAutoCommit(false);
-
             final PreparedStatement statement = con.prepareStatement(
                     "INSERT INTO producto(nombre,descripcion,cantidad) VALUES (?,?,?);"
                     , Statement.RETURN_GENERATED_KEYS);
 
             try(statement) {
-                int maximoCantidad = 50;
-                int cantidad = producto.getCantidad();
-
-                try {
-                    do {
-                        int cantidadParaGuardar = Math.min(cantidad, maximoCantidad);
-                        producto.setCantidad(cantidadParaGuardar);
-                        resultSet = ejecutaRegistro(producto, statement);
-                        cantidad -= maximoCantidad;
-                    } while (cantidad > 0);
-
-                    con.commit();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    con.rollback();
-                }
+                resultSet = ejecutaRegistro(producto, statement);
             }
+
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
         }
 
         return resultSet;

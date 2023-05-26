@@ -16,7 +16,7 @@ public class ProductController {
         this.productoDAO = new ProductoDAO(new ConnectionFactory().recuperaConexion());;
     }
 
-    public void guardar(Producto producto) throws SQLException{
+    public void guardar(Producto producto) {
         ProductoDAO productoDAO = new ProductoDAO(new ConnectionFactory().recuperaConexion());
         productoDAO.create(producto);
     }
