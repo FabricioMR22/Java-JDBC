@@ -3,6 +3,8 @@ import factory.ConnectionFactory;
 import org.model.Producto;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductoDAO {
     final private Connection con;
@@ -47,7 +49,7 @@ public class ProductoDAO {
         return 0;
     }
 
-    public Producto read(Integer ID) throws SQLException {
+    public Producto read(Integer ID) {
         Producto producto = new Producto();
 
         try(con) {
@@ -60,6 +62,8 @@ public class ProductoDAO {
                 statement.execute();
                 extracted(producto, statement);
             }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
         }
         return producto;
     }
@@ -77,7 +81,7 @@ public class ProductoDAO {
         }
     }
 
-    public Integer update(Producto producto) throws SQLException {
+    public Integer update(Producto producto) {
         try(con) {
             final PreparedStatement statement = con.prepareStatement(
                     "UPDATE producto SET nombre = ?, descripcion = ?, cantidad = ? WHERE id = ?;"
@@ -91,10 +95,13 @@ public class ProductoDAO {
 
                 return statement.getUpdateCount();
             }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
-    public Integer delete(Integer ID) throws SQLException{
+    public Integer delete(Integer ID) {
         try(con){
             final PreparedStatement statement = con.prepareStatement(
                     "DELETE FROM producto WHERE id = ?;"
@@ -104,6 +111,37 @@ public class ProductoDAO {
                 statement.execute();
                 return statement.getUpdateCount();
             }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Producto> listar() {
+        try(con) {
+            List<Producto> Productos = new ArrayList<>();
+            final Statement statement = con.createStatement();
+
+            try(statement){
+                statement.execute("SELECT * FROM producto;");
+                final ResultSet resultSet = statement.getResultSet();
+
+                try(resultSet){
+                    while (resultSet.next()) {
+                        Producto producto = new Producto(
+                                resultSet.getInt("id"),
+                                resultSet.getString("nombre"),
+                                resultSet.getString("descripcion"),
+                                resultSet.getInt("cantidad")
+                        );
+                        Productos.add(producto);
+                    }
+                }
+                return Productos;
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 }
