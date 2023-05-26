@@ -133,7 +133,8 @@ public class ProductoDAO {
                                 resultSet.getInt("id"),
                                 resultSet.getString("nombre"),
                                 resultSet.getString("descripcion"),
-                                resultSet.getInt("cantidad")
+                                resultSet.getInt("cantidad"),
+                                resultSet.getInt("categoria_id")
                         );
                         Productos.add(producto);
                     }
