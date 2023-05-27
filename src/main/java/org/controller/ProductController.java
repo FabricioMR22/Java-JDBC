@@ -2,6 +2,7 @@ package org.controller;
 
 import factory.ConnectionFactory;
 import org.DAO.ProductoDAO;
+import org.model.Categoria;
 import org.model.Producto;
 
 import java.sql.*;
@@ -35,5 +36,9 @@ public class ProductController {
 
     public List<Producto> listar() {
         return this.productoDAO.listar();
+    }
+
+    public List<Producto> listar(Categoria categoria) {
+        return this.productoDAO.listar(categoria.getId());
     }
 }
