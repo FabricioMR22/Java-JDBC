@@ -53,7 +53,7 @@ public class ProductoDAO {
     public Producto read(Integer ID) {
         Producto producto = new Producto();
 
-        try(con) {
+        try {
             final PreparedStatement statement = con.prepareStatement(
                     "SELECT * FROM producto WHERE id = ?;"
             );
@@ -83,7 +83,7 @@ public class ProductoDAO {
     }
 
     public Integer update(Producto producto) {
-        try(con) {
+        try {
             final PreparedStatement statement = con.prepareStatement(
                     "UPDATE producto SET nombre = ?, descripcion = ?, cantidad = ? WHERE id = ?;"
             );
@@ -103,7 +103,7 @@ public class ProductoDAO {
     }
 
     public Integer delete(Integer ID) {
-        try(con){
+        try{
             final PreparedStatement statement = con.prepareStatement(
                     "DELETE FROM producto WHERE id = ?;"
             );
@@ -119,7 +119,7 @@ public class ProductoDAO {
     }
 
     public List<Producto> listar() {
-        try(con) {
+        try {
             List<Producto> Productos = new ArrayList<>();
             final Statement statement = con.createStatement();
 
