@@ -14,6 +14,8 @@ public class ProductoDAO {
             " cantidad = ?, categoria_id = ? WHERE id = ?;";
     private static final String DELETE_PRODUCTO_QUERY = "DELETE FROM producto WHERE id = ?;";
 
+    private static final String LIST_PRODUCTO_QUERY = "SELECT * FROM producto;";
+
     public ProductoDAO(Connection con) {
         this.con = con;
     }
@@ -116,29 +118,24 @@ public class ProductoDAO {
     }
 
     public List<Producto> listar() {
-        try {
-            List<Producto> Productos = new ArrayList<>();
-            final Statement statement = con.createStatement();
+        List<Producto> Productos = new ArrayList<>();
 
-            try (statement) {
-                statement.execute("SELECT * FROM producto;");
-                final ResultSet resultSet = statement.getResultSet();
+        try (final PreparedStatement statement = con.prepareStatement(LIST_PRODUCTO_QUERY)) {
+            statement.execute();
 
-                try (resultSet) {
-                    while (resultSet.next()) {
-                        Producto producto = new Producto(
-                                resultSet.getString("nombre"),
-                                resultSet.getString("descripcion"),
-                                resultSet.getInt("cantidad")
-                        );
-                        Productos.add(producto);
-                    }
-                }
-                return Productos;
+            ResultSet resultSet = statement.getResultSet();
+            while (resultSet.next()) {
+                Producto producto = new Producto(
+                        resultSet.getString("nombre"),
+                        resultSet.getString("descripcion"),
+                        resultSet.getInt("cantidad")
+                );
+                Productos.add(producto);
             }
+
+            return Productos;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al listar productos",e);
         }
     }
 
