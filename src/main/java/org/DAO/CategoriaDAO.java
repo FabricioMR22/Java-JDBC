@@ -1,10 +1,10 @@
 package org.DAO;
 
 import org.model.Categoria;
+import org.model.Producto;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CategoriaDAO {
     private Connection con;
@@ -43,7 +43,7 @@ public class CategoriaDAO {
     }
 
     public List<Categoria> listarConProducto() {
-        List<Categoria> categorias = new ArrayList<>();
+        List<Categoria> listaCatProductos = new ArrayList<>();
 
         try{
             var querySelect = "SELECT C.id,C.nombre,P.id,P.nombre,P.cantidad FROM categoria C INNER JOIN producto P on C.id = P.categoria_id;";
@@ -55,15 +55,24 @@ public class CategoriaDAO {
                 final ResultSet resultSet = statement.executeQuery();
                 try(resultSet) {
                     while (resultSet.next()){
-                        int categoriaId = resultSet.getInt("id");
-                        String categoriaNombre = resultSet.getString("nombre");
+                        Integer categoriaId = resultSet.getInt("C.id");
+                        String categoriaNombre = resultSet.getString("C.nombre");
 
-                        Categoria categoria =
+                        var categoria = listaCatProductos
+                                .stream()
+                                .filter(cat -> cat.getId().equals(categoriaId))
+                                .findAny().orElseGet( ()->{
+                                   Categoria cat = new Categoria(categoriaId,categoriaNombre);
 
-                                new Categoria(
-                                categoriaId,categoriaNombre
-                        );
-                        categorias.add(categoria);
+                                   listaCatProductos.add(cat);
+
+                                   return cat;
+                                });
+                        Producto producto = new Producto(
+                                resultSet.getString("P.nombre"),
+                                resultSet.getInt("P.cantidad"));
+
+                        categoria.agregarProducto(producto);
                     }
                 }
             }
@@ -72,7 +81,7 @@ public class CategoriaDAO {
             System.out.println(e.getMessage());
         }
 
-        return categorias;
+        return listaCatProductos;
     }
 
 }
