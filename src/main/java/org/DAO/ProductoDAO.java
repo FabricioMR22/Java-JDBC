@@ -16,7 +16,7 @@ public class ProductoDAO {
     public int create(Producto producto) {
         int resultSet = 0;
 
-        try(con){
+        try{
             final PreparedStatement statement = con.prepareStatement(
                     "INSERT INTO producto(nombre,descripcion,cantidad,categoria_id) VALUES (?,?,?,?);"
                     , Statement.RETURN_GENERATED_KEYS);
@@ -148,7 +148,10 @@ public class ProductoDAO {
     public List<Producto> listar(Integer categoriaId) {
         try {
             List<Producto> Productos = new ArrayList<>();
-            final PreparedStatement statement = con.prepareStatement("SELECT * FROM producto WHERE categoria_id = ?;");
+            var querySelet = "SELECT * FROM producto WHERE categoria_id = ?;";
+            System.out.println(querySelet);
+
+            final PreparedStatement statement = con.prepareStatement(querySelet);
 
             try(statement){
                 statement.setInt(1,categoriaId);

@@ -11,8 +11,6 @@ public class runCategoria {
         CategoriaController categoriaController = new CategoriaController();
         ProductController productController = new ProductController();
 
-
-
         categoriaController.listar().forEach(
                 categoria -> {
                     System.out.printf("%-15s%n", categoria.getNombre());
@@ -24,8 +22,6 @@ public class runCategoria {
                     );
                 }
         );
-
-
 
     }
 

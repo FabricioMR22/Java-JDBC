@@ -4,7 +4,6 @@ import factory.ConnectionFactory;
 import org.DAO.CategoriaDAO;
 import org.model.Categoria;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriaController {
@@ -16,6 +15,10 @@ public class CategoriaController {
 
     public List<Categoria> listar(){
         return categoriaDAO.listar() ;
+    }
+
+    public List<Categoria> cargaReporte(){
+        return categoriaDAO.listarConProducto() ;
     }
 
 }

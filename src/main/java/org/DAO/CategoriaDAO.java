@@ -17,7 +17,10 @@ public class CategoriaDAO {
         List<Categoria> categorias = new ArrayList<>();
 
         try{
-            final PreparedStatement statement = con.prepareStatement("SELECT * FROM categoria");
+            var querySelet = "SELECT * FROM categoria";
+            System.out.println(querySelet);
+
+            final PreparedStatement statement = con.prepareStatement(querySelet);
             try(statement) {
                 statement.execute();
                 final ResultSet resultSet = statement.executeQuery();
@@ -38,4 +41,38 @@ public class CategoriaDAO {
 
         return categorias;
     }
+
+    public List<Categoria> listarConProducto() {
+        List<Categoria> categorias = new ArrayList<>();
+
+        try{
+            var querySelect = "SELECT C.id,C.nombre,P.id,P.nombre,P.cantidad FROM categoria C INNER JOIN producto P on C.id = P.categoria_id;";
+            System.out.println(querySelect);
+
+            final PreparedStatement statement = con.prepareStatement(querySelect);
+            try(statement) {
+                statement.execute();
+                final ResultSet resultSet = statement.executeQuery();
+                try(resultSet) {
+                    while (resultSet.next()){
+                        int categoriaId = resultSet.getInt("id");
+                        String categoriaNombre = resultSet.getString("nombre");
+
+                        Categoria categoria =
+
+                                new Categoria(
+                                categoriaId,categoriaNombre
+                        );
+                        categorias.add(categoria);
+                    }
+                }
+            }
+
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return categorias;
+    }
+
 }
