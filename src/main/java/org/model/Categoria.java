@@ -1,8 +1,14 @@
 package org.model;
 
+import org.controller.ProductController;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Categoria {
     private Integer id;
     private String nombre;
+    private List<Producto> productoList = new ArrayList<>();
 
     public Categoria(Integer id, String nombre) {
         this.id = id;
@@ -25,6 +31,13 @@ public class Categoria {
         this.nombre = nombre;
     }
 
+    public void agregarProducto(Producto producto){
+        productoList.add(producto);
+    }
+
+    public List<Producto> mostrarProducto(){
+        return this.productoList;
+    }
     @Override
     public String toString() {
         return "Categoria{" +
