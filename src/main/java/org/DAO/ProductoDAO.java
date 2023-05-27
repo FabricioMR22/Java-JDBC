@@ -9,6 +9,9 @@ import java.util.List;
 public class ProductoDAO {
     final private Connection con;
 
+    private static final String UPDATE_PRODUCTO_QUERY = "UPDATE producto SET nombre = ?, descripcion = ?," +
+            " cantidad = ?, categoria_id = ? WHERE id = ?;";
+
     public ProductoDAO(Connection con) {
         this.con = con;
     }
@@ -16,10 +19,10 @@ public class ProductoDAO {
     public int create(Producto producto) {
         int resultSet = 0;
 
-        try{
-            final PreparedStatement statement = con.prepareStatement(
-                    "INSERT INTO producto(nombre,descripcion,cantidad,categoria_id) VALUES (?,?,?,?);"
-                    , Statement.RETURN_GENERATED_KEYS);
+        String querySelect = "INSERT INTO producto(nombre,descripcion,cantidad,categoria_id) VALUES (?,?,?,?);";
+
+        try(final PreparedStatement statement = con.prepareStatement(querySelect,Statement.RETURN_GENERATED_KEYS)){
+
 
             try(statement) {
                 resultSet = ejecutaRegistro(producto, statement);
@@ -83,22 +86,18 @@ public class ProductoDAO {
     }
 
     public Integer update(Producto producto) {
-        try {
-            final PreparedStatement statement = con.prepareStatement(
-                    "UPDATE producto SET nombre = ?, descripcion = ?, cantidad = ? WHERE id = ?;"
-            );
-            try(statement) {
-                statement.setString(1,producto.getNombre());
-                statement.setString(2,producto.getDescripcion());
-                statement.setInt(3,producto.getCantidad());
-                statement.setInt(4,producto.getId());
-                statement.execute();
+        try (final PreparedStatement statement = con.prepareStatement(UPDATE_PRODUCTO_QUERY);) {
+            statement.setString(1, producto.getNombre());
+            statement.setString(2, producto.getDescripcion());
+            statement.setInt(3, producto.getCantidad());
+            statement.setInt(4, producto.getId());
+            statement.setInt(5,producto.getCategoriaId());
+            statement.execute();
 
-                return statement.getUpdateCount();
-            }
-        }catch (SQLException e){
+            return statement.getUpdateCount();
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al actualizar producto",e);
         }
     }
 
