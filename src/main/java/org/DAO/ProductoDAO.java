@@ -1,4 +1,5 @@
 package org.DAO;
+
 import factory.ConnectionFactory;
 import org.model.Producto;
 
@@ -11,6 +12,7 @@ public class ProductoDAO {
 
     private static final String UPDATE_PRODUCTO_QUERY = "UPDATE producto SET nombre = ?, descripcion = ?," +
             " cantidad = ?, categoria_id = ? WHERE id = ?;";
+    private static final String DELETE_PRODUCTO_QUERY = "DELETE FROM producto WHERE id = ?;";
 
     public ProductoDAO(Connection con) {
         this.con = con;
@@ -21,14 +23,14 @@ public class ProductoDAO {
 
         String querySelect = "INSERT INTO producto(nombre,descripcion,cantidad,categoria_id) VALUES (?,?,?,?);";
 
-        try(final PreparedStatement statement = con.prepareStatement(querySelect,Statement.RETURN_GENERATED_KEYS)){
+        try (final PreparedStatement statement = con.prepareStatement(querySelect, Statement.RETURN_GENERATED_KEYS)) {
 
 
-            try(statement) {
+            try (statement) {
                 resultSet = ejecutaRegistro(producto, statement);
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
@@ -43,8 +45,8 @@ public class ProductoDAO {
         statement.execute();
 
         final ResultSet resultSet = statement.getGeneratedKeys();
-        try(resultSet) {
-            while (resultSet.next()){
+        try (resultSet) {
+            while (resultSet.next()) {
                 producto.setId(resultSet.getInt(1));
                 System.out.println(String.format("Fue insertado el producto %s", producto));
                 return resultSet.getInt(1);
@@ -61,12 +63,12 @@ public class ProductoDAO {
                     "SELECT * FROM producto WHERE id = ?;"
             );
 
-            try(statement) {
+            try (statement) {
                 statement.setInt(1, ID);
                 statement.execute();
                 extracted(producto, statement);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return producto;
@@ -75,7 +77,7 @@ public class ProductoDAO {
     private static void extracted(Producto producto, PreparedStatement statement) throws SQLException {
         final ResultSet resultSet = statement.getResultSet();
 
-        try(resultSet){
+        try (resultSet) {
             while (resultSet.next()) {
                 producto.setId(resultSet.getInt("id"));
                 producto.setNombre(resultSet.getString("nombre"));
@@ -91,27 +93,23 @@ public class ProductoDAO {
             statement.setString(2, producto.getDescripcion());
             statement.setInt(3, producto.getCantidad());
             statement.setInt(4, producto.getId());
-            statement.setInt(5,producto.getCategoriaId());
+            statement.setInt(5, producto.getCategoriaId());
             statement.execute();
 
             return statement.getUpdateCount();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException("Error al actualizar producto",e);
+            throw new RuntimeException("Error al actualizar producto", e);
         }
     }
 
     public Integer delete(Integer ID) {
-        try{
-            final PreparedStatement statement = con.prepareStatement(
-                    "DELETE FROM producto WHERE id = ?;"
-            );
-            try(statement){
-                statement.setInt(1,ID);
-                statement.execute();
-                return statement.getUpdateCount();
-            }
-        }catch (SQLException e){
+        try (final PreparedStatement statement = con.prepareStatement(DELETE_PRODUCTO_QUERY);) {
+            statement.setInt(1, ID);
+            statement.execute();
+
+            return statement.getUpdateCount();
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -122,11 +120,11 @@ public class ProductoDAO {
             List<Producto> Productos = new ArrayList<>();
             final Statement statement = con.createStatement();
 
-            try(statement){
+            try (statement) {
                 statement.execute("SELECT * FROM producto;");
                 final ResultSet resultSet = statement.getResultSet();
 
-                try(resultSet){
+                try (resultSet) {
                     while (resultSet.next()) {
                         Producto producto = new Producto(
                                 resultSet.getString("nombre"),
@@ -138,7 +136,7 @@ public class ProductoDAO {
                 }
                 return Productos;
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
@@ -152,12 +150,12 @@ public class ProductoDAO {
 
             final PreparedStatement statement = con.prepareStatement(querySelet);
 
-            try(statement){
-                statement.setInt(1,categoriaId);
+            try (statement) {
+                statement.setInt(1, categoriaId);
                 statement.execute();
                 final ResultSet resultSet = statement.getResultSet();
 
-                try(resultSet){
+                try (resultSet) {
                     while (resultSet.next()) {
                         Producto producto = new Producto(
                                 resultSet.getString("nombre"),
@@ -169,7 +167,7 @@ public class ProductoDAO {
                 }
                 return Productos;
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
