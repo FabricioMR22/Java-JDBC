@@ -1,7 +1,7 @@
-package org.DAO;
+package JDBC.DAO;
 
-import org.model.Categoria;
-import org.model.Producto;
+import JDBC.model.Categoria;
+import JDBC.model.Producto;
 
 import java.sql.*;
 import java.util.*;

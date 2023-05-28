@@ -1,21 +1,16 @@
-package org.run;
+package JDBC.run;
 
-import org.controller.CategoriaController;
-import org.controller.ProductController;
-import org.model.Categoria;
+import JDBC.controller.CategoriaController;
 
-
-public class runCategoria {
-
+public class runCateProdu {
     public static void main(String[] args) {
         CategoriaController categoriaController = new CategoriaController();
-        ProductController productController = new ProductController();
 
-        categoriaController.listar().forEach(
+        categoriaController.cargaReporte().forEach(
                 categoria -> {
                     System.out.printf("%-15s%n", categoria.getNombre());
-                    productController.listar(categoria).forEach(
-                            producto -> System.out.printf("%-15s %-10s %-5s%n",
+                    categoria.mostrarProducto().forEach(
+                            producto -> System.out.printf("%-15s %-20s %-5s%n",
                                     " ",
                                     producto.getNombre(),
                                     producto.getCantidad())
@@ -23,6 +18,6 @@ public class runCategoria {
                 }
         );
 
-    }
 
+    }
 }

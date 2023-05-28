@@ -1,12 +1,10 @@
-package org.controller;
+package JDBC.controller;
 
-import factory.ConnectionFactory;
-import org.DAO.ProductoDAO;
-import org.model.Categoria;
-import org.model.Producto;
+import JDBC.DAO.ProductoDAO;
+import JDBC.model.Categoria;
+import JDBC.factory.ConnectionFactory;
+import JDBC.model.Producto;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductController {

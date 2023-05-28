@@ -1,6 +1,6 @@
-package org.run;
+package JDBC.run;
 
-import factory.ConnectionFactory;
+import JDBC.factory.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;

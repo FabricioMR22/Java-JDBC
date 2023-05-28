@@ -1,6 +1,4 @@
-package org.model;
-
-import org.controller.ProductController;
+package JDBC.model;
 
 import java.util.ArrayList;
 import java.util.List;

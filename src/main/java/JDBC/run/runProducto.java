@@ -1,7 +1,6 @@
-package org.run;
+package JDBC.run;
 
-import org.controller.ProductController;
-import org.model.Producto;
+import JDBC.controller.ProductController;
 
 public class runProducto {
     public static void main(String[] args) {

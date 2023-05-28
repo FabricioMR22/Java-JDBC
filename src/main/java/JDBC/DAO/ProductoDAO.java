@@ -1,7 +1,6 @@
-package org.DAO;
+package JDBC.DAO;
 
-import factory.ConnectionFactory;
-import org.model.Producto;
+import JDBC.model.Producto;
 
 import java.sql.*;
 import java.util.ArrayList;

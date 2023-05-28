@@ -1,8 +1,8 @@
-package org.controller;
+package JDBC.controller;
 
-import factory.ConnectionFactory;
-import org.DAO.CategoriaDAO;
-import org.model.Categoria;
+import JDBC.DAO.CategoriaDAO;
+import JDBC.model.Categoria;
+import JDBC.factory.ConnectionFactory;
 
 import java.util.List;
 

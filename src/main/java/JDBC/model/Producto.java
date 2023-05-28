@@ -1,4 +1,4 @@
-package org.model;
+package JDBC.model;
 
 public class Producto {
     private Integer id;
