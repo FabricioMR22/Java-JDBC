@@ -15,6 +15,9 @@ public class runProducto {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("tienda");
         EntityManager manager =  factory.createEntityManager();
 
+        manager.getTransaction().begin();
         manager.persist(producto);
+        manager.getTransaction().commit();
+        manager.close();
     }
 }
