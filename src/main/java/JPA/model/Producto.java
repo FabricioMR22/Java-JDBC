@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "productos")
@@ -28,7 +29,7 @@ public class Producto {
     @Getter @Setter @NonNull
     private BigDecimal precio;
 
-    private LocalDate fechaRegistro = LocalDate.now();
+    private LocalDateTime fechaRegistro = LocalDateTime.now();
 
     @ManyToOne
     @NonNull
@@ -37,5 +38,11 @@ public class Producto {
 
     public Producto() {
 
+    }
+
+    @Override
+    public String toString() {
+        return String.format("| %-5d | %-15s | %-20s | %-10.2f | %-20s | %-15s |",
+                id, nombre, descripcion, precio, fechaRegistro, categoria);
     }
 }
