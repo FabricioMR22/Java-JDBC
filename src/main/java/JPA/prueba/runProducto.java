@@ -37,5 +37,10 @@ public class runProducto {
         celulares.setNombre("Software");
 
         manager.flush();
+        manager.clear();
+
+        celulares = manager.merge(celulares);
+        manager.remove(celulares);
+        manager.flush();
     }
 }
