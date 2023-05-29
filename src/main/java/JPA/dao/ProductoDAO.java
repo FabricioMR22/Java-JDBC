@@ -14,4 +14,8 @@ public class ProductoDAO {
     public void save(Producto producto){
         this.em.persist(producto);
     }
+
+    public Producto read(Long id){
+        return  em.find(Producto.class,id);
+    }
 }
