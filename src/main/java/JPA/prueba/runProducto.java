@@ -24,6 +24,10 @@ public class runProducto {
         productoDAO.read("Samsung","Usado")
                 .forEach( producto -> System.out.println(producto));
 
+        System.out.println(
+                productoDAO.read("Xiaomi")
+        );
+
     }
 
     private static void registro() {
@@ -36,7 +40,7 @@ public class runProducto {
         Producto producto2 = new Producto(
                 "Xiaomi",
                 "Nuevo",
-                new BigDecimal("199"),celulares);
+                new BigDecimal("599"),celulares);
 
         Producto producto3 = new Producto(
                 "iPhone",

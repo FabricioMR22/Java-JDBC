@@ -5,6 +5,7 @@ import JPA.model.Producto;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +31,15 @@ public class ProductoDAO {
 
     public List<Producto> read(String nombre,String descripcion){
         String query = "SELECT P FROM Producto AS P WHERE P.nombre =: nombre OR P.descripcion=:descripcion ";
-        Query querySelect = em.createQuery(query);
+        Query querySelect = em.createQuery(query,Producto.class);
         querySelect.setParameter("nombre",nombre);
         querySelect.setParameter("descripcion",descripcion);
 
         return querySelect.getResultList();
+    }
+
+    public BigDecimal read(String nombre){
+        String query = "SELECT P.precio FROM Producto AS P WHERE P.nombre=:nombre";
+        return em.createQuery(query,BigDecimal.class).setParameter("nombre",nombre).getSingleResult();
     }
 }
