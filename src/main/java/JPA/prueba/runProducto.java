@@ -1,5 +1,6 @@
 package JPA.prueba;
 
+import JPA.dao.CategoriaDAO;
 import JPA.dao.ProductoDAO;
 import JPA.model.Categoria;
 import JPA.model.Producto;
@@ -22,10 +23,12 @@ public class runProducto {
 
         EntityManager manager = JPAUtils.getEntityManager();
 
+        CategoriaDAO categoriaDAO = new CategoriaDAO(manager);
         ProductoDAO productoDAO = new ProductoDAO(manager);
 
         manager.getTransaction().begin();
 
+        categoriaDAO.save(celulares);
         productoDAO.save(producto);
 
         manager.getTransaction().commit();

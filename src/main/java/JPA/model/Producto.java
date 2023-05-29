@@ -1,10 +1,7 @@
 package JPA.model;
 
 import JPA.model.Categoria;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -36,6 +33,7 @@ public class Producto {
     @ManyToOne
     @NonNull
     private Categoria categoria;
+
 
     public Producto() {
 
