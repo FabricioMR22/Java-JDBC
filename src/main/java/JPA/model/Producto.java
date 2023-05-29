@@ -33,7 +33,7 @@ public class Producto {
 
     private LocalDate fechaRegistro = LocalDate.now();
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     @NonNull
     private Categoria categoria;
 

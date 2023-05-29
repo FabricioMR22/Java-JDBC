@@ -12,11 +12,12 @@ import java.math.BigDecimal;
 
 public class runProducto {
     public static void main(String[] args) {
+        Categoria celulares = new Categoria("Celulares");
+
         Producto producto = new Producto(
                 "Samsung",
                 "Usado",
-                new BigDecimal("199"),
-                Categoria.SOFTWARE);
+                new BigDecimal("199"),celulares);
 
 
         EntityManager manager = JPAUtils.getEntityManager();
