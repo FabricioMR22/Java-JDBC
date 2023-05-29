@@ -1,5 +1,6 @@
 package JPA.model;
 
+import JPA.model.Categoria;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "productos")
@@ -28,6 +30,12 @@ public class Producto {
     @Column
     @Getter @Setter @NonNull
     private BigDecimal precio;
+
+    private LocalDate fechaRegistro = LocalDate.now();
+
+    @Enumerated(EnumType.STRING)
+    @NonNull
+    private Categoria categoria;
 
     public Producto() {
 

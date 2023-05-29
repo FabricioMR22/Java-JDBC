@@ -1,6 +1,7 @@
 package JPA.prueba;
 
 import JPA.dao.ProductoDAO;
+import JPA.model.Categoria;
 import JPA.model.Producto;
 import JPA.utils.JPAUtils;
 
@@ -12,7 +13,10 @@ import java.math.BigDecimal;
 public class runProducto {
     public static void main(String[] args) {
         Producto producto = new Producto(
-                "Samsung","Usado",new BigDecimal("199"));
+                "Samsung",
+                "Usado",
+                new BigDecimal("199"),
+                Categoria.SOFTWARE);
 
 
         EntityManager manager = JPAUtils.getEntityManager();
