@@ -21,6 +21,8 @@ public class runProducto {
         Producto productoConsultado = productoDAO.read(1l);
         System.out.println(productoConsultado.getNombre());
 
+        productoDAO.read().forEach( producto -> System.out.println(producto.getPrecio()));
+
     }
 
     private static void registro() {
