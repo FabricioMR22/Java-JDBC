@@ -24,14 +24,18 @@ public class runProducto {
         EntityManager manager = JPAUtils.getEntityManager();
 
         CategoriaDAO categoriaDAO = new CategoriaDAO(manager);
-        ProductoDAO productoDAO = new ProductoDAO(manager);
 
         manager.getTransaction().begin();
 
         categoriaDAO.save(celulares);
-        productoDAO.save(producto);
+        celulares.setNombre("Libros");
 
-        manager.getTransaction().commit();
-        manager.close();
+        manager.flush();
+        manager.clear();
+
+        celulares = manager.merge(celulares);
+        celulares.setNombre("Software");
+
+        manager.flush();
     }
 }
