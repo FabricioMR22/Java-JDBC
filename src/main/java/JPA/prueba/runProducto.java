@@ -1,6 +1,8 @@
 package JPA.prueba;
 
+import JPA.dao.ProductoDAO;
 import JPA.model.Producto;
+import JPA.utils.JPAUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,11 +14,15 @@ public class runProducto {
         Producto producto = new Producto(
                 "Samsung","Usado",new BigDecimal("199"));
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("tienda");
-        EntityManager manager =  factory.createEntityManager();
+
+        EntityManager manager = JPAUtils.getEntityManager();
+
+        ProductoDAO productoDAO = new ProductoDAO(manager);
 
         manager.getTransaction().begin();
-        manager.persist(producto);
+
+        productoDAO.save(producto);
+
         manager.getTransaction().commit();
         manager.close();
     }
