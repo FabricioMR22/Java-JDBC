@@ -21,7 +21,8 @@ public class runProducto {
         Producto productoConsultado = productoDAO.read(1l);
         System.out.println(productoConsultado.getNombre());
 
-        productoDAO.read().forEach( producto -> System.out.println(producto.getPrecio()));
+        productoDAO.read("Samsung","Usado")
+                .forEach( producto -> System.out.println(producto));
 
     }
 
@@ -32,6 +33,17 @@ public class runProducto {
                 "Usado",
                 new BigDecimal("199"),celulares);
 
+        Producto producto2 = new Producto(
+                "Xiaomi",
+                "Nuevo",
+                new BigDecimal("199"),celulares);
+
+        Producto producto3 = new Producto(
+                "iPhone",
+                "Usado",
+                new BigDecimal("300"),celulares);
+
+
         EntityManager manager = JPAUtils.getEntityManager();
 
         CategoriaDAO categoriaDAO = new CategoriaDAO(manager);
@@ -41,6 +53,8 @@ public class runProducto {
 
         categoriaDAO.save(celulares);
         productoDAO.save(producto);
+        productoDAO.save(producto2);
+        productoDAO.save(producto3);
 
         manager.getTransaction().commit();
         manager.close();
