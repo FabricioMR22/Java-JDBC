@@ -1,9 +1,28 @@
 package JPA.model;
 
-public enum Categoria {
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
-    SOFTWARE,
-    LIBROS,
-    CELULARES
+import javax.persistence.*;
 
+@Entity
+@Table(name = "categorias")
+@RequiredArgsConstructor
+public class Categoria{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter
+    private Long id;
+
+    @Column
+    @Getter @Setter @NonNull
+    private String nombre;
+
+    public Categoria() {
+
+    }
 }
