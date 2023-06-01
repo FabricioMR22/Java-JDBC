@@ -4,8 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
@@ -28,6 +28,10 @@ public class Pedido {
     @ManyToOne
     @Getter @Setter @NonNull
     private Cliente cliente;
+
+    @ManyToMany
+    @JoinTable
+    private List<Producto> productos;
 
     public Pedido() {
 
