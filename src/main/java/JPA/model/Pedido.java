@@ -29,8 +29,8 @@ public class Pedido {
     @Getter @Setter @NonNull
     private Cliente cliente;
 
-    @OneToMany
-    private List<items_pedido> productos;
+    @OneToMany(mappedBy = "pedido")
+    private List<items_pedido> items;
 
     public Pedido() {
 
