@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +31,12 @@ public class Pedido {
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido")
-    private List<items_pedido> items;
+    private List<items_pedido> items = new ArrayList<>();
+
+    public void agregarItems(items_pedido item){
+        item.setPedido(this);
+        this.items.add(item);
+    }
 
     public Pedido() {
 
