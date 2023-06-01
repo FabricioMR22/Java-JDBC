@@ -29,9 +29,8 @@ public class Pedido {
     @Getter @Setter @NonNull
     private Cliente cliente;
 
-    @ManyToMany
-    @JoinTable
-    private List<Producto> productos;
+    @OneToMany
+    private List<items_pedido> productos;
 
     public Pedido() {
 
