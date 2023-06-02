@@ -1,4 +1,0 @@
-2023-06-02 18:27:37 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "PRODUCTO" no encontrada
-Table "PRODUCTO" not found; SQL statement:
-select * from producto [42102-214]
