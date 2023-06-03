@@ -38,8 +38,8 @@ public class PedidoDAO {
                 "FROM Pedido pedido " +
                 "JOIN pedido.items item " +
                 "JOIN item.producto producto " +
-                "GROUP BY producto.nombre, item.cantidad " +
-                "ORDER BY item.cantidad DESC";
+                "GROUP BY producto.nombre " +
+                "ORDER BY SUM(item.cantidad) DESC";
         return em.createQuery(queryJpql,Object[].class).getResultList();
     }
 }
