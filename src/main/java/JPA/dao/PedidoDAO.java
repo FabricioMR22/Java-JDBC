@@ -3,6 +3,8 @@ package JPA.dao;
 import JPA.model.Pedido;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class PedidoDAO {
@@ -23,5 +25,10 @@ public class PedidoDAO {
     public List<Pedido> read(){
         String query = "SELECT P FROM Pedido AS P";
         return em.createQuery(query,Pedido.class).getResultList();
+    }
+
+    public BigDecimal valorTotalVendido(){
+        String queryJPQL = "SELECT SUM(p.valorTotal) FROM Pedido p";
+        return em.createQuery(queryJPQL,BigDecimal.class).getSingleResult();
     }
 }
