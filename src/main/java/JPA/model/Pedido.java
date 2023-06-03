@@ -42,4 +42,14 @@ public class Pedido {
     public Pedido() {
 
     }
+
+    @Override
+    public String toString() {
+        items.forEach(
+                item -> System.out.println(item.getProducto())
+        );
+
+        return String.format("%-5s %-40s %-5s%n %-40s ",
+                id,FechaDeRegistro,valorTotal, cliente.getNombre());
+    }
 }
