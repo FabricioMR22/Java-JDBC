@@ -7,6 +7,7 @@ import JPA.model.*;
 import JPA.utils.JPAUtils;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 public class runPedido {
     public static void main(String[] args) {
@@ -20,12 +21,12 @@ public class runPedido {
         ClienteDAO clienteDAO = new ClienteDAO(manager);
 
 
-        pedidoDAO.read().forEach( pedido ->
-                System.out.println(pedido));
-
-        System.out.println(
-                pedidoDAO.valorTotalVendido()
-        );
+        List<Object[]> relatorio = pedidoDAO.relatorioVentas();
+        for (Object[] obj:relatorio){
+            System.out.println(obj[0]);
+            System.out.println(obj[1]);
+            System.out.println(obj[2]);
+        }
 
 
 
