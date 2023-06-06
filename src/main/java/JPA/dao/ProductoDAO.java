@@ -42,4 +42,9 @@ public class ProductoDAO {
         return em.createNamedQuery("Producto.consultaPrecio", BigDecimal.class)
                 .setParameter("nombre",nombre).getSingleResult();
     }
+
+    public Producto consultaProductoCategoria(Long id){
+        String jpql = "SELECT p FROM Producto p JOIN Fetch p.categoria WHERE p.id=:id";
+        return em.createQuery(jpql,Producto.class).setParameter("id",id).getSingleResult();
+    }
 }
