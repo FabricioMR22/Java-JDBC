@@ -30,6 +30,7 @@ public class Pedido {
     @Getter @Setter @NonNull
     private Cliente cliente;
 
+    @Getter @Setter
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<items_pedido> items = new ArrayList<>();
 
@@ -49,7 +50,7 @@ public class Pedido {
                 item -> System.out.println(item.getProducto())
         );
 
-        return String.format("%-5s %-40s %-5s%n %-40s ",
+        return String.format("%-5s %-40s %-5s %-40s ",
                 id,FechaDeRegistro,valorTotal, cliente.getNombre());
     }
 }

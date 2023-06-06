@@ -33,9 +33,8 @@ public class Producto {
     private LocalDateTime fechaRegistro = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @NonNull
+    @Getter @Setter @NonNull
     private Categoria categoria;
-
 
     public Producto() {
 
