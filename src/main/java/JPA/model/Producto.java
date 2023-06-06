@@ -32,7 +32,7 @@ public class Producto {
 
     private LocalDateTime fechaRegistro = LocalDateTime.now();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @NonNull
     private Categoria categoria;
 

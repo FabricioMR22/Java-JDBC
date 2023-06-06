@@ -26,7 +26,7 @@ public class Pedido {
     @Getter @Setter
     private BigDecimal valorTotal = new BigDecimal(0);
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @Getter @Setter @NonNull
     private Cliente cliente;
 

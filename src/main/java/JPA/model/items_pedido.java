@@ -19,11 +19,11 @@ public class items_pedido {
     @Getter @Setter
     private BigDecimal precioUnitario;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @Getter @Setter
     private Producto producto;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @Getter @Setter
     private Pedido pedido;
 
