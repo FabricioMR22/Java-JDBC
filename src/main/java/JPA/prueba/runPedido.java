@@ -21,12 +21,8 @@ public class runPedido {
         ClienteDAO clienteDAO = new ClienteDAO(manager);
 
 
-        List<Object[]> relatorio = pedidoDAO.relatorioVentas();
-        for (Object[] obj:relatorio){
-            System.out.println(obj[0]);
-            System.out.println(obj[1]);
-            System.out.println(obj[2]);
-        }
+        pedidoDAO.relatorioVentas().forEach( relatorioVenta ->
+                System.out.println(relatorioVenta));
 
 
 
