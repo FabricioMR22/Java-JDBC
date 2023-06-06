@@ -23,7 +23,7 @@ public class items_pedido {
     @Getter @Setter
     private Producto producto;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @Getter @Setter
     private Pedido pedido;
 
@@ -39,5 +39,16 @@ public class items_pedido {
 
     public BigDecimal getValor(){
         return precioUnitario.multiply(new BigDecimal(cantidad));
+    }
+
+    @Override
+    public String toString() {
+        return "items_pedido{" +
+                "id=" + id +
+                ", cantidad=" + cantidad +
+                ", precioUnitario=" + precioUnitario +
+                ", producto=" + producto +
+                ", pedido=" + pedido +
+                '}';
     }
 }
