@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 public class runProducto {
     public static void main(String[] args) {
-        registro();
+        //registro();
         EntityManager manager = JPAUtils.getEntityManager();
 
         ProductoDAO productoDAO = new ProductoDAO(manager);

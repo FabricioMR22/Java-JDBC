@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "productos")
+@NamedQuery(name="Producto.consultaPrecio",query = "SELECT P.precio FROM Producto AS P WHERE P.nombre=:nombre")
 @RequiredArgsConstructor
 public class Producto {
     @Id

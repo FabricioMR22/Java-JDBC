@@ -39,7 +39,7 @@ public class ProductoDAO {
     }
 
     public BigDecimal read(String nombre){
-        String query = "SELECT P.precio FROM Producto AS P WHERE P.nombre=:nombre";
-        return em.createQuery(query,BigDecimal.class).setParameter("nombre",nombre).getSingleResult();
+        return em.createNamedQuery("Producto.consultaPrecio", BigDecimal.class)
+                .setParameter("nombre",nombre).getSingleResult();
     }
 }
