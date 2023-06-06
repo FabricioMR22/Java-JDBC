@@ -51,6 +51,6 @@ public class Pedido {
         );
 
         return String.format("%-5s %-40s %-5s %-40s ",
-                id,FechaDeRegistro,valorTotal, cliente.getNombre());
+                id,FechaDeRegistro,valorTotal, cliente.getDatosPersonales().getNombre());
     }
 }

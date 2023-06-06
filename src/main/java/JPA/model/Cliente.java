@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "cliente")
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Cliente {
 
     @Id
@@ -14,15 +14,13 @@ public class Cliente {
     @Getter
     private Long id;
 
-    @Column
-    @Getter @Setter @NonNull
-    private String nombre;
+    @Embedded
+    @Getter @Setter
+    private ClienteDatosPersonales datosPersonales;
 
-    @Column
-    @Getter @Setter @NonNull
-    private Integer dni;
-
-    public Cliente() {
-
+    public Cliente(String nombre, Integer dni) {
+        this.datosPersonales = new ClienteDatosPersonales(nombre,dni);
     }
+
+
 }
