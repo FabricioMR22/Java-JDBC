@@ -31,7 +31,7 @@ public class runProducto {
     }
 
     private static void registro() {
-        Categoria celulares = new Categoria("Celulares");
+        Categoria celulares = new Categoria("Celulares","1234");
         Producto producto = new Producto(
                 "Samsung",
                 "Usado",

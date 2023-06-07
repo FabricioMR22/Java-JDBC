@@ -12,7 +12,7 @@ public class runCategoria {
 
         CategoriaDAO categoriaDAO = new CategoriaDAO(manager);
 
-        Categoria celulares = new Categoria("Celulares");
+        Categoria celulares = new Categoria("Celulares","123");
 
         manager.getTransaction().begin();
         categoriaDAO.save(celulares);
